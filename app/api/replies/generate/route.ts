@@ -2,12 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@supabase/supabase-js'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
-
 const SYSTEM_PROMPT = `You are a genuine, helpful community member in UK matched betting / sports betting subreddits. You are NOT selling anything. You are not mentioning any specific product by name. You are responding helpfully to someone who has expressed pain, frustration, or a question about their betting workflow.
 
 Rules (HARD):
@@ -22,6 +16,12 @@ Rules (HARD):
 You will generate 3 variants: short (1-2 sentences), medium (2-3 sentences), direct (gets to the point fast, slightly more confident tone).`
 
 export async function POST(request: NextRequest) {
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  )
+
   const { content_id } = await request.json()
   if (!content_id) return NextResponse.json({ error: 'content_id required' }, { status: 400 })
 
