@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Overview', icon: '📊' },
+  { href: '/overview', label: 'Overview', icon: '📊' },
   { href: '/records', label: 'Records', icon: '📋' },
   { href: '/leads', label: 'Leads', icon: '🎯' },
   { href: '/insights', label: 'Insights', icon: '📈' },
@@ -41,7 +41,7 @@ export function Sidebar({ newLeadsCount = 0, newRecordsCount = 0 }: SidebarProps
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
         {NAV_ITEMS.map(item => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           const badge = item.href === '/leads' ? newLeadsCount : item.href === '/records' ? newRecordsCount : 0
 
           return (
